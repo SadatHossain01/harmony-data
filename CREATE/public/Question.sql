@@ -9,7 +9,7 @@ CREATE TABLE "Question" (
     content_id     INTEGER
         CONSTRAINT question_content_content_id_fk
             REFERENCES "Content"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     q_text         TEXT
 );
 

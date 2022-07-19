@@ -5,7 +5,7 @@ CREATE TABLE "GroupMessage" (
     group_id   INTEGER NOT NULL
         CONSTRAINT groupmessage_group_group_id_fk
             REFERENCES "Group"
-            ON UPDATE CASCADE ON DELETE SET NULL
+            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 COMMENT ON TABLE "GroupMessage" IS 'an inherited entity set of message';

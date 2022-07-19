@@ -6,7 +6,7 @@ CREATE TABLE "PostRelatedTo" (
     post_id INTEGER NOT NULL
         CONSTRAINT postrelatedto_post_post_id_fk
             REFERENCES "Post"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT postrelatedto_pk
         PRIMARY KEY (tag_id, post_id)
 );

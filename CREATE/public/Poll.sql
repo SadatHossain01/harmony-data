@@ -6,7 +6,7 @@ CREATE TABLE "Poll" (
     group_id   INTEGER     NOT NULL
         CONSTRAINT poll_group_group_id_fk
             REFERENCES "Group"
-            ON UPDATE CASCADE ON DELETE SET NULL
+            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 ALTER TABLE "Poll"

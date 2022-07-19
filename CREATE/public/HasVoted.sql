@@ -2,11 +2,11 @@ CREATE TABLE "HasVoted" (
     voter_id INTEGER NOT NULL
         CONSTRAINT hasvoted_user_user_id_fk
             REFERENCES "User"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     poll_id  INTEGER NOT NULL
         CONSTRAINT hasvoted_poll_poll_id_fk
             REFERENCES "Poll"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT hasvoted_pk
         PRIMARY KEY (voter_id, poll_id),
     CONSTRAINT hasvoted_pk_2

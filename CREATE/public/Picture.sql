@@ -4,7 +4,7 @@ CREATE TABLE "Picture" (
             PRIMARY KEY
         CONSTRAINT picture_content_content_id_fk
             REFERENCES "Content"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     image_format VARCHAR(10) NOT NULL,
     dimension    VARCHAR(10) NOT NULL,
     resolution   INTEGER     NOT NULL

@@ -4,7 +4,7 @@ CREATE TABLE "Query" (
             PRIMARY KEY
         CONSTRAINT query_post_post_id_fk
             REFERENCES "Post"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     replies  INTEGER DEFAULT 0 NOT NULL
 );
 

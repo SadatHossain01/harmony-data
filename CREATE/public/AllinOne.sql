@@ -59,11 +59,11 @@ CREATE TABLE IF NOT EXISTS "FriendOf" (
     user_1 INTEGER NOT NULL
         CONSTRAINT friendof_user_user_id_fk
             REFERENCES "User"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     user_2 INTEGER NOT NULL
         CONSTRAINT friendof_user_user_id_fk_2
             REFERENCES "User"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT friendof_pk
         PRIMARY KEY (user_1, user_2)
 );
@@ -96,11 +96,11 @@ CREATE TABLE IF NOT EXISTS "MemberOf" (
     group_id  INTEGER                              NOT NULL
         CONSTRAINT memberof_group_group_id_fk
             REFERENCES "Group"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     member_id INTEGER                              NOT NULL
         CONSTRAINT memberof_user_user_id_fk
             REFERENCES "User"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     access    VARCHAR(10) DEFAULT 'member'::bpchar NOT NULL,
     CONSTRAINT member_pk
         PRIMARY KEY (group_id, member_id)
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS "Subject" (
     parent_group_id INTEGER     NOT NULL
         CONSTRAINT subject_group_group_id_fk
             REFERENCES "Group"
-            ON UPDATE CASCADE ON DELETE SET NULL
+            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 ALTER TABLE "Subject"
@@ -156,11 +156,11 @@ CREATE TABLE IF NOT EXISTS "Post" (
     poster_id      INTEGER           NOT NULL
         CONSTRAINT post_user_user_id_fk
             REFERENCES "User"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     parent_post_id INTEGER
         CONSTRAINT post_post_post_id_fk
             REFERENCES "Post"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     subject_id     INTEGER
         CONSTRAINT post_subject_subject_id_fk
             REFERENCES "Subject"
@@ -184,7 +184,7 @@ CREATE TABLE IF NOT EXISTS "Notice" (
             PRIMARY KEY
         CONSTRAINT notice_post_post_id_fk
             REFERENCES "Post"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     validity  TIMESTAMP
 );
 
@@ -204,7 +204,7 @@ CREATE TABLE IF NOT EXISTS "Query" (
             PRIMARY KEY
         CONSTRAINT query_post_post_id_fk
             REFERENCES "Post"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     replies  INTEGER DEFAULT 0 NOT NULL
 );
 
@@ -220,7 +220,7 @@ CREATE TABLE IF NOT EXISTS "AssignedTo" (
     post_id INTEGER NOT NULL
         CONSTRAINT assignedto_post_post_id_fk
             REFERENCES "Post"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     user_id INTEGER NOT NULL
         CONSTRAINT assignedto_user_user_id_fk
             REFERENCES "User"
@@ -238,7 +238,7 @@ CREATE TABLE IF NOT EXISTS "TagFallsUnder" (
     tag_id     INTEGER NOT NULL
         CONSTRAINT tagfallsunder_tag_tag_id_fk
             REFERENCES "Tag"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     subject_id INTEGER NOT NULL
         CONSTRAINT tagfallsunder_subject_subject_id_fk
             REFERENCES "Subject"
@@ -260,7 +260,7 @@ CREATE TABLE IF NOT EXISTS "PostRelatedTo" (
     post_id INTEGER NOT NULL
         CONSTRAINT postrelatedto_post_post_id_fk
             REFERENCES "Post"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT postrelatedto_pk
         PRIMARY KEY (tag_id, post_id)
 );
@@ -301,7 +301,7 @@ CREATE TABLE IF NOT EXISTS "GroupMessage" (
     group_id   INTEGER NOT NULL
         CONSTRAINT groupmessage_group_group_id_fk
             REFERENCES "Group"
-            ON UPDATE CASCADE ON DELETE SET NULL
+            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 COMMENT ON TABLE "GroupMessage" IS 'an inherited entity set of message';
@@ -336,11 +336,11 @@ CREATE TABLE IF NOT EXISTS "Assignment" (
             PRIMARY KEY
         CONSTRAINT assignment_event_event_id_fk
             REFERENCES "Event"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     question_id      INTEGER NOT NULL
         CONSTRAINT assignment_content_content_id_fk
             REFERENCES "Content"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     subject_id       INTEGER NOT NULL
         CONSTRAINT assignment_subject_subject_id_fk
             REFERENCES "Subject"
@@ -362,7 +362,7 @@ CREATE TABLE IF NOT EXISTS "Picture" (
             PRIMARY KEY
         CONSTRAINT picture_content_content_id_fk
             REFERENCES "Content"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     image_format VARCHAR(10) NOT NULL,
     dimension    VARCHAR(10) NOT NULL,
     resolution   INTEGER     NOT NULL
@@ -382,7 +382,7 @@ CREATE TABLE IF NOT EXISTS "File" (
             PRIMARY KEY
         CONSTRAINT file_content_content_id_fk
             REFERENCES "Content"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     file_format   VARCHAR(10) NOT NULL,
     last_modified TIMESTAMP   NOT NULL
 );
@@ -406,7 +406,7 @@ CREATE TABLE IF NOT EXISTS "Question" (
     content_id     INTEGER
         CONSTRAINT question_content_content_id_fk
             REFERENCES "Content"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     q_text         TEXT
 );
 
@@ -429,7 +429,7 @@ CREATE TABLE IF NOT EXISTS "Solution" (
     solution_id INTEGER           NOT NULL
         CONSTRAINT solution_content_content_id_fk
             REFERENCES "Content"
-            ON UPDATE CASCADE ON DELETE SET NULL
+            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 COMMENT ON TABLE "Solution" IS 'weak entity set dependent on question';
@@ -447,7 +447,7 @@ CREATE TABLE IF NOT EXISTS "Poll" (
     group_id   INTEGER     NOT NULL
         CONSTRAINT poll_group_group_id_fk
             REFERENCES "Group"
-            ON UPDATE CASCADE ON DELETE SET NULL
+            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 ALTER TABLE "Poll"
@@ -460,7 +460,7 @@ CREATE TABLE IF NOT EXISTS "PollOption" (
     poll_id      INTEGER           NOT NULL
         CONSTRAINT polloption_poll_poll_id_fk
             REFERENCES "Poll"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     option_no    INTEGER           NOT NULL,
     option_title VARCHAR(35)       NOT NULL,
     vote_count   INTEGER DEFAULT 0 NOT NULL,
@@ -479,11 +479,11 @@ CREATE TABLE IF NOT EXISTS "HasVoted" (
     voter_id INTEGER NOT NULL
         CONSTRAINT hasvoted_user_user_id_fk
             REFERENCES "User"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     poll_id  INTEGER NOT NULL
         CONSTRAINT hasvoted_poll_poll_id_fk
             REFERENCES "Poll"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT hasvoted_pk
         PRIMARY KEY (voter_id, poll_id),
     CONSTRAINT hasvoted_pk_2

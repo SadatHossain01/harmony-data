@@ -6,7 +6,7 @@ CREATE TABLE "Subject" (
     parent_group_id INTEGER     NOT NULL
         CONSTRAINT subject_group_group_id_fk
             REFERENCES "Group"
-            ON UPDATE CASCADE ON DELETE SET NULL
+            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 ALTER TABLE "Subject"

@@ -2,11 +2,11 @@ CREATE TABLE "MemberOf" (
     group_id  INTEGER                              NOT NULL
         CONSTRAINT memberof_group_group_id_fk
             REFERENCES "Group"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     member_id INTEGER                              NOT NULL
         CONSTRAINT memberof_user_user_id_fk
             REFERENCES "User"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     access    VARCHAR(10) DEFAULT 'member'::bpchar NOT NULL,
     CONSTRAINT member_pk
         PRIMARY KEY (group_id, member_id)

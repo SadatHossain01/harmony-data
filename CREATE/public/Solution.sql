@@ -5,7 +5,7 @@ CREATE TABLE "Solution" (
     solution_id INTEGER           NOT NULL
         CONSTRAINT solution_content_content_id_fk
             REFERENCES "Content"
-            ON UPDATE CASCADE ON DELETE SET NULL
+            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 COMMENT ON TABLE "Solution" IS 'weak entity set dependent on question';

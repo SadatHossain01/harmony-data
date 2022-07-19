@@ -8,11 +8,11 @@ CREATE TABLE "Post" (
     poster_id      INTEGER           NOT NULL
         CONSTRAINT post_user_user_id_fk
             REFERENCES "User"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     parent_post_id INTEGER
         CONSTRAINT post_post_post_id_fk
             REFERENCES "Post"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     subject_id     INTEGER
         CONSTRAINT post_subject_subject_id_fk
             REFERENCES "Subject"

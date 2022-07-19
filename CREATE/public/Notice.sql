@@ -4,7 +4,7 @@ CREATE TABLE "Notice" (
             PRIMARY KEY
         CONSTRAINT notice_post_post_id_fk
             REFERENCES "Post"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     validity  TIMESTAMP
 );
 

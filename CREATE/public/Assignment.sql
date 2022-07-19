@@ -4,11 +4,11 @@ CREATE TABLE "Assignment" (
             PRIMARY KEY
         CONSTRAINT assignment_event_event_id_fk
             REFERENCES "Event"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     question_id      INTEGER NOT NULL
         CONSTRAINT assignment_content_content_id_fk
             REFERENCES "Content"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     subject_id       INTEGER NOT NULL
         CONSTRAINT assignment_subject_subject_id_fk
             REFERENCES "Subject"
