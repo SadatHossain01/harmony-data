@@ -9,11 +9,11 @@ CREATE TABLE "Assignment" (
         CONSTRAINT assignment_content_content_id_fk
             REFERENCES "Content"
             ON UPDATE CASCADE ON DELETE CASCADE,
-    subject_id       INTEGER NOT NULL
+    subject_id       INTEGER
         CONSTRAINT assignment_subject_subject_id_fk
             REFERENCES "Subject"
             ON UPDATE CASCADE ON DELETE SET NULL,
-    assignment_title VARCHAR(25)
+    assignment_title VARCHAR(25) DEFAULT 'Assignment'::CHARACTER VARYING
 );
 
 COMMENT ON TABLE "Assignment" IS 'an inherited entity set of event';

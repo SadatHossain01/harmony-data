@@ -6,7 +6,7 @@ CREATE TABLE "File" (
             REFERENCES "Content"
             ON UPDATE CASCADE ON DELETE CASCADE,
     file_format   VARCHAR(10) NOT NULL,
-    last_modified TIMESTAMP   NOT NULL
+    last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 COMMENT ON TABLE "File" IS 'an inherited entity set of content';

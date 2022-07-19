@@ -1,13 +1,14 @@
 CREATE TABLE "Event" (
-    event_id   SERIAL
+    event_id       SERIAL
         CONSTRAINT event_pk
             PRIMARY KEY,
-    time       TIMESTAMP   NOT NULL,
-    title      VARCHAR(30) NOT NULL,
-    subject_id INTEGER     NOT NULL
+    time_created   TIMESTAMP   DEFAULT CURRENT_TIMESTAMP,
+    title          VARCHAR(30) DEFAULT 'Event'::CHARACTER VARYING,
+    subject_id     INTEGER
         CONSTRAINT event_subject_subject_id_fk
             REFERENCES "Subject"
-            ON UPDATE CASCADE ON DELETE SET NULL
+            ON UPDATE CASCADE ON DELETE SET NULL,
+    time_to_happen TIMESTAMP
 );
 
 ALTER TABLE "Event"

@@ -1,13 +1,13 @@
 CREATE TABLE "Picture" (
-    picture_id   INTEGER     NOT NULL
+    picture_id   INTEGER NOT NULL
         CONSTRAINT picture_pk
             PRIMARY KEY
         CONSTRAINT picture_content_content_id_fk
             REFERENCES "Content"
             ON UPDATE CASCADE ON DELETE CASCADE,
-    image_format VARCHAR(10) NOT NULL,
-    dimension    VARCHAR(10) NOT NULL,
-    resolution   INTEGER     NOT NULL
+    image_format VARCHAR(10),
+    dimension    VARCHAR(10),
+    resolution   INTEGER
 );
 
 COMMENT ON TABLE "Picture" IS 'an inherited entity set of content';

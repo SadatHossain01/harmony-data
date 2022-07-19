@@ -1,12 +1,13 @@
 CREATE TABLE "Poll" (
-    poll_id    SERIAL
+    poll_id     SERIAL
         CONSTRAINT poll_pk
             PRIMARY KEY,
-    poll_title VARCHAR(40) NOT NULL,
-    group_id   INTEGER     NOT NULL
+    poll_title  VARCHAR(40) DEFAULT 'Poll'::CHARACTER VARYING NOT NULL,
+    group_id    INTEGER                                       NOT NULL
         CONSTRAINT poll_group_group_id_fk
             REFERENCES "Group"
-            ON UPDATE CASCADE ON DELETE CASCADE
+            ON UPDATE CASCADE ON DELETE CASCADE,
+    poll_opened TIMESTAMP   DEFAULT CURRENT_TIMESTAMP
 );
 
 ALTER TABLE "Poll"

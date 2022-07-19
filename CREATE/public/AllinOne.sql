@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS "User" (
     mname     VARCHAR(30),
     lname     VARCHAR(30) NOT NULL,
     dob       DATE,
-    joined    DATE        NOT NULL,
+    joined    DATE DEFAULT CURRENT_DATE,
     dp_id     INTEGER
 );
 
@@ -29,10 +29,10 @@ CREATE TABLE IF NOT EXISTS "Content" (
         CONSTRAINT content_pk
             PRIMARY KEY,
     type         VARCHAR(10)                                  NOT NULL,
-    content_name VARCHAR(25)                                  NOT NULL,
+    content_name VARCHAR(25) DEFAULT 'Content'::CHARACTER VARYING,
     access       VARCHAR(10) DEFAULT 'all'::CHARACTER VARYING NOT NULL,
     link         TEXT                                         NOT NULL,
-    created      TIMESTAMP                                    NOT NULL,
+    created      TIMESTAMP   DEFAULT CURRENT_TIMESTAMP,
     owner_id     INTEGER
         CONSTRAINT content_user__fk
             REFERENCES "User"
@@ -78,8 +78,8 @@ CREATE TABLE IF NOT EXISTS "Group" (
         CONSTRAINT group_pk
             PRIMARY KEY,
     group_name     VARCHAR(30) NOT NULL,
-    intro          TEXT,
-    created        DATE        NOT NULL,
+    intro          TEXT DEFAULT 'Welcome'::TEXT,
+    created        DATE DEFAULT CURRENT_DATE,
     group_photo_id INTEGER
         CONSTRAINT group_content_content_id_fk
             REFERENCES "Content"
@@ -117,8 +117,8 @@ CREATE TABLE IF NOT EXISTS "Subject" (
     subject_id      SERIAL
         CONSTRAINT subject_pk
             PRIMARY KEY,
-    subject_name    VARCHAR(25) NOT NULL,
-    parent_group_id INTEGER     NOT NULL
+    subject_name    VARCHAR(25) DEFAULT 'Subject'::CHARACTER VARYING NOT NULL,
+    parent_group_id INTEGER                                          NOT NULL
         CONSTRAINT subject_group_group_id_fk
             REFERENCES "Group"
             ON UPDATE CASCADE ON DELETE CASCADE
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS "Tag" (
     tag_id   SERIAL
         CONSTRAINT tag_pk
             PRIMARY KEY,
-    tag_name VARCHAR(15) NOT NULL
+    tag_name VARCHAR(15) DEFAULT 'Tag'::CHARACTER VARYING NOT NULL
 );
 
 ALTER TABLE "Tag"
@@ -150,10 +150,10 @@ CREATE TABLE IF NOT EXISTS "Post" (
     post_id        SERIAL
         CONSTRAINT post_pk
             PRIMARY KEY,
-    p_text         TEXT              NOT NULL,
-    time           TIMESTAMP         NOT NULL,
-    upvote         INTEGER DEFAULT 0 NOT NULL,
-    poster_id      INTEGER           NOT NULL
+    p_text         TEXT      DEFAULT 'Insert Post Here'::TEXT NOT NULL,
+    time           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    upvote         INTEGER   DEFAULT 0                        NOT NULL,
+    poster_id      INTEGER                                    NOT NULL
         CONSTRAINT post_user_user_id_fk
             REFERENCES "User"
             ON UPDATE CASCADE ON DELETE CASCADE,
@@ -166,6 +166,8 @@ CREATE TABLE IF NOT EXISTS "Post" (
             REFERENCES "Subject"
             ON UPDATE CASCADE ON DELETE SET NULL
 );
+
+COMMENT ON COLUMN "Post".parent_post_id IS 'if parent post id null, then this is the root post';
 
 COMMENT ON COLUMN "Post".subject_id IS 'if null, then general subject';
 
@@ -224,7 +226,7 @@ CREATE TABLE IF NOT EXISTS "AssignedTo" (
     user_id INTEGER NOT NULL
         CONSTRAINT assignedto_user_user_id_fk
             REFERENCES "User"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT assignedto_pk
         PRIMARY KEY (post_id, user_id)
 );
@@ -242,7 +244,7 @@ CREATE TABLE IF NOT EXISTS "TagFallsUnder" (
     subject_id INTEGER NOT NULL
         CONSTRAINT tagfallsunder_subject_subject_id_fk
             REFERENCES "Subject"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT tagfallsunder_pk
         PRIMARY KEY (tag_id, subject_id)
 );
@@ -256,7 +258,7 @@ CREATE TABLE IF NOT EXISTS "PostRelatedTo" (
     tag_id  INTEGER NOT NULL
         CONSTRAINT postrelatedto_tag_tag_id_fk
             REFERENCES "Tag"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     post_id INTEGER NOT NULL
         CONSTRAINT postrelatedto_post_post_id_fk
             REFERENCES "Post"
@@ -276,16 +278,16 @@ CREATE TABLE IF NOT EXISTS "Message" (
     message_id  SERIAL
         CONSTRAINT message_pk
             PRIMARY KEY,
-    m_text      TEXT      NOT NULL,
-    time        TIMESTAMP NOT NULL,
-    sender_id   INTEGER   NOT NULL
+    m_text      TEXT                                NOT NULL,
+    time        TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    sender_id   INTEGER                             NOT NULL
         CONSTRAINT message_user_user_id_fk
             REFERENCES "User"
-            ON UPDATE CASCADE ON DELETE SET NULL,
-    receiver_id INTEGER   NOT NULL
+            ON UPDATE CASCADE ON DELETE CASCADE,
+    receiver_id INTEGER                             NOT NULL
         CONSTRAINT message_user_user_id_fk_2
             REFERENCES "User"
-            ON UPDATE CASCADE ON DELETE SET NULL
+            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 ALTER TABLE "Message"
@@ -313,15 +315,16 @@ CREATE UNIQUE INDEX IF NOT EXISTS groupmessage_message_id_uindex
     ON "GroupMessage" (message_id);
 
 CREATE TABLE IF NOT EXISTS "Event" (
-    event_id   SERIAL
+    event_id       SERIAL
         CONSTRAINT event_pk
             PRIMARY KEY,
-    time       TIMESTAMP   NOT NULL,
-    title      VARCHAR(30) NOT NULL,
-    subject_id INTEGER     NOT NULL
+    time_created   TIMESTAMP   DEFAULT CURRENT_TIMESTAMP,
+    title          VARCHAR(30) DEFAULT 'Event'::CHARACTER VARYING,
+    subject_id     INTEGER
         CONSTRAINT event_subject_subject_id_fk
             REFERENCES "Subject"
-            ON UPDATE CASCADE ON DELETE SET NULL
+            ON UPDATE CASCADE ON DELETE SET NULL,
+    time_to_happen TIMESTAMP
 );
 
 ALTER TABLE "Event"
@@ -341,11 +344,11 @@ CREATE TABLE IF NOT EXISTS "Assignment" (
         CONSTRAINT assignment_content_content_id_fk
             REFERENCES "Content"
             ON UPDATE CASCADE ON DELETE CASCADE,
-    subject_id       INTEGER NOT NULL
+    subject_id       INTEGER
         CONSTRAINT assignment_subject_subject_id_fk
             REFERENCES "Subject"
             ON UPDATE CASCADE ON DELETE SET NULL,
-    assignment_title VARCHAR(25)
+    assignment_title VARCHAR(25) DEFAULT 'Assignment'::CHARACTER VARYING
 );
 
 COMMENT ON TABLE "Assignment" IS 'an inherited entity set of event';
@@ -357,15 +360,15 @@ CREATE UNIQUE INDEX IF NOT EXISTS assignment_event_id_uindex
     ON "Assignment" (assignment_id);
 
 CREATE TABLE IF NOT EXISTS "Picture" (
-    picture_id   INTEGER     NOT NULL
+    picture_id   INTEGER NOT NULL
         CONSTRAINT picture_pk
             PRIMARY KEY
         CONSTRAINT picture_content_content_id_fk
             REFERENCES "Content"
             ON UPDATE CASCADE ON DELETE CASCADE,
-    image_format VARCHAR(10) NOT NULL,
-    dimension    VARCHAR(10) NOT NULL,
-    resolution   INTEGER     NOT NULL
+    image_format VARCHAR(10),
+    dimension    VARCHAR(10),
+    resolution   INTEGER
 );
 
 COMMENT ON TABLE "Picture" IS 'an inherited entity set of content';
@@ -384,7 +387,7 @@ CREATE TABLE IF NOT EXISTS "File" (
             REFERENCES "Content"
             ON UPDATE CASCADE ON DELETE CASCADE,
     file_format   VARCHAR(10) NOT NULL,
-    last_modified TIMESTAMP   NOT NULL
+    last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 COMMENT ON TABLE "File" IS 'an inherited entity set of content';
@@ -440,14 +443,15 @@ ALTER TABLE "Solution"
     OWNER TO postgres;
 
 CREATE TABLE IF NOT EXISTS "Poll" (
-    poll_id    SERIAL
+    poll_id     SERIAL
         CONSTRAINT poll_pk
             PRIMARY KEY,
-    poll_title VARCHAR(40) NOT NULL,
-    group_id   INTEGER     NOT NULL
+    poll_title  VARCHAR(40) DEFAULT 'Poll'::CHARACTER VARYING NOT NULL,
+    group_id    INTEGER                                       NOT NULL
         CONSTRAINT poll_group_group_id_fk
             REFERENCES "Group"
-            ON UPDATE CASCADE ON DELETE CASCADE
+            ON UPDATE CASCADE ON DELETE CASCADE,
+    poll_opened TIMESTAMP   DEFAULT CURRENT_TIMESTAMP
 );
 
 ALTER TABLE "Poll"
@@ -457,13 +461,13 @@ CREATE UNIQUE INDEX IF NOT EXISTS poll_poll_id_uindex
     ON "Poll" (poll_id);
 
 CREATE TABLE IF NOT EXISTS "PollOption" (
-    poll_id      INTEGER           NOT NULL
+    poll_id      INTEGER               NOT NULL
         CONSTRAINT polloption_poll_poll_id_fk
             REFERENCES "Poll"
             ON UPDATE CASCADE ON DELETE CASCADE,
-    option_no    INTEGER           NOT NULL,
-    option_title VARCHAR(35)       NOT NULL,
-    vote_count   INTEGER DEFAULT 0 NOT NULL,
+    option_no    INTEGER               NOT NULL,
+    option_title VARCHAR(35) DEFAULT 'Option'::CHARACTER VARYING,
+    vote_count   INTEGER     DEFAULT 0 NOT NULL,
     CONSTRAINT polloption_pk
         PRIMARY KEY (poll_id, option_no),
     CONSTRAINT polloption_pk_2
@@ -476,14 +480,15 @@ ALTER TABLE "PollOption"
     OWNER TO postgres;
 
 CREATE TABLE IF NOT EXISTS "HasVoted" (
-    voter_id INTEGER NOT NULL
+    voter_id  INTEGER NOT NULL
         CONSTRAINT hasvoted_user_user_id_fk
             REFERENCES "User"
             ON UPDATE CASCADE ON DELETE CASCADE,
-    poll_id  INTEGER NOT NULL
+    poll_id   INTEGER NOT NULL
         CONSTRAINT hasvoted_poll_poll_id_fk
             REFERENCES "Poll"
             ON UPDATE CASCADE ON DELETE CASCADE,
+    vote_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT hasvoted_pk
         PRIMARY KEY (voter_id, poll_id),
     CONSTRAINT hasvoted_pk_2

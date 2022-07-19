@@ -2,7 +2,7 @@ CREATE TABLE "PostRelatedTo" (
     tag_id  INTEGER NOT NULL
         CONSTRAINT postrelatedto_tag_tag_id_fk
             REFERENCES "Tag"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     post_id INTEGER NOT NULL
         CONSTRAINT postrelatedto_post_post_id_fk
             REFERENCES "Post"

@@ -2,7 +2,7 @@ CREATE TABLE "Tag" (
     tag_id   SERIAL
         CONSTRAINT tag_pk
             PRIMARY KEY,
-    tag_name VARCHAR(15) NOT NULL
+    tag_name VARCHAR(15) DEFAULT 'Tag'::CHARACTER VARYING NOT NULL
 );
 
 ALTER TABLE "Tag"

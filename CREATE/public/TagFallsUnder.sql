@@ -6,7 +6,7 @@ CREATE TABLE "TagFallsUnder" (
     subject_id INTEGER NOT NULL
         CONSTRAINT tagfallsunder_subject_subject_id_fk
             REFERENCES "Subject"
-            ON UPDATE CASCADE ON DELETE SET NULL,
+            ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT tagfallsunder_pk
         PRIMARY KEY (tag_id, subject_id)
 );

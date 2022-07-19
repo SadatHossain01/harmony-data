@@ -1,11 +1,12 @@
+-- auto-generated definition
 CREATE TABLE "Post" (
     post_id        SERIAL
         CONSTRAINT post_pk
             PRIMARY KEY,
-    p_text         TEXT              NOT NULL,
-    time           TIMESTAMP         NOT NULL,
-    upvote         INTEGER DEFAULT 0 NOT NULL,
-    poster_id      INTEGER           NOT NULL
+    p_text         TEXT      DEFAULT 'Insert Post Here'::TEXT NOT NULL,
+    time           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    upvote         INTEGER   DEFAULT 0                        NOT NULL,
+    poster_id      INTEGER                                    NOT NULL
         CONSTRAINT post_user_user_id_fk
             REFERENCES "User"
             ON UPDATE CASCADE ON DELETE CASCADE,
@@ -18,6 +19,8 @@ CREATE TABLE "Post" (
             REFERENCES "Subject"
             ON UPDATE CASCADE ON DELETE SET NULL
 );
+
+COMMENT ON COLUMN "Post".parent_post_id IS 'if parent post id null, then this is the root post';
 
 COMMENT ON COLUMN "Post".subject_id IS 'if null, then general subject';
 

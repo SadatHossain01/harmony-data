@@ -8,7 +8,7 @@ CREATE TABLE "User" (
     mname     VARCHAR(30),
     lname     VARCHAR(30) NOT NULL,
     dob       DATE,
-    joined    DATE        NOT NULL,
+    joined    DATE DEFAULT CURRENT_DATE,
     dp_id     INTEGER
         CONSTRAINT user_content_content_id_fk
             REFERENCES "Content"
