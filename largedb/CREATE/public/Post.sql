@@ -1,4 +1,3 @@
--- auto-generated definition
 CREATE TABLE "Post" (
     post_id        SERIAL
         CONSTRAINT post_pk
@@ -17,7 +16,11 @@ CREATE TABLE "Post" (
     subject_id     INTEGER
         CONSTRAINT post_subject_subject_id_fk
             REFERENCES "Subject"
-            ON UPDATE CASCADE ON DELETE SET NULL
+            ON UPDATE CASCADE ON DELETE SET NULL,
+    group_id       INTEGER
+        CONSTRAINT post_group_group_id_fk
+            REFERENCES "Group"
+            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 COMMENT ON COLUMN "Post".parent_post_id IS 'if parent post id null, then this is the root post';

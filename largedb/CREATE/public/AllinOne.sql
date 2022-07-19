@@ -164,7 +164,11 @@ CREATE TABLE IF NOT EXISTS "Post" (
     subject_id     INTEGER
         CONSTRAINT post_subject_subject_id_fk
             REFERENCES "Subject"
-            ON UPDATE CASCADE ON DELETE SET NULL
+            ON UPDATE CASCADE ON DELETE SET NULL,
+    group_id       INTEGER
+        CONSTRAINT post_group_group_id_fk
+            REFERENCES "Group"
+            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 COMMENT ON COLUMN "Post".parent_post_id IS 'if parent post id null, then this is the root post';
@@ -498,5 +502,23 @@ CREATE TABLE IF NOT EXISTS "HasVoted" (
 COMMENT ON TABLE "HasVoted" IS 'many-to-many relation between user and poll';
 
 ALTER TABLE "HasVoted"
+    OWNER TO postgres;
+
+CREATE TABLE IF NOT EXISTS "PostPartOf" (
+    post_id  INTEGER NOT NULL
+        CONSTRAINT postpartof_post_post_id_fk
+            REFERENCES "Post"
+            ON UPDATE CASCADE ON DELETE CASCADE,
+    group_id INTEGER NOT NULL
+        CONSTRAINT postpartof_group_group_id_fk
+            REFERENCES "Group"
+            ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT postpartof_pk
+        PRIMARY KEY (post_id, group_id)
+);
+
+COMMENT ON TABLE "PostPartOf" IS 'to know which group this post is of';
+
+ALTER TABLE "PostPartOf"
     OWNER TO postgres;
 
