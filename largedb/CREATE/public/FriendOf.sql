@@ -8,7 +8,9 @@ CREATE TABLE "FriendOf" (
             REFERENCES "User"
             ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT friendof_pk
-        PRIMARY KEY (user_1, user_2)
+        PRIMARY KEY (user_1, user_2),
+    CONSTRAINT friendof_pk_2
+        UNIQUE (user_1, user_2)
 );
 
 COMMENT ON TABLE "FriendOf" IS 'a recursive relation of user entity set';

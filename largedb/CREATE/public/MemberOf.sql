@@ -9,7 +9,9 @@ CREATE TABLE "MemberOf" (
             ON UPDATE CASCADE ON DELETE CASCADE,
     access    VARCHAR(10) DEFAULT 'member'::bpchar NOT NULL,
     CONSTRAINT member_pk
-        PRIMARY KEY (group_id, member_id)
+        PRIMARY KEY (group_id, member_id),
+    CONSTRAINT memberof_pk
+        UNIQUE (group_id, member_id)
 );
 
 COMMENT ON TABLE "MemberOf" IS 'many-to-many relation between user and group';

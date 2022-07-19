@@ -8,7 +8,9 @@ CREATE TABLE "PostPartOf" (
             REFERENCES "Group"
             ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT postpartof_pk
-        PRIMARY KEY (post_id, group_id)
+        PRIMARY KEY (post_id, group_id),
+    CONSTRAINT postpartof_pk_2
+        UNIQUE (post_id, group_id)
 );
 
 COMMENT ON TABLE "PostPartOf" IS 'to know which group this post is of';

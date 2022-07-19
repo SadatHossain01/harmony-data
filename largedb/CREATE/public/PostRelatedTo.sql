@@ -8,7 +8,9 @@ CREATE TABLE "PostRelatedTo" (
             REFERENCES "Post"
             ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT postrelatedto_pk
-        PRIMARY KEY (tag_id, post_id)
+        PRIMARY KEY (tag_id, post_id),
+    CONSTRAINT postrelatedto_pk_2
+        UNIQUE (tag_id, post_id)
 );
 
 COMMENT ON TABLE "PostRelatedTo" IS 'many-to-many relation between query and tag';

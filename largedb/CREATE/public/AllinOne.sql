@@ -65,7 +65,9 @@ CREATE TABLE IF NOT EXISTS "FriendOf" (
             REFERENCES "User"
             ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT friendof_pk
-        PRIMARY KEY (user_1, user_2)
+        PRIMARY KEY (user_1, user_2),
+    CONSTRAINT friendof_pk_2
+        UNIQUE (user_1, user_2)
 );
 
 COMMENT ON TABLE "FriendOf" IS 'a recursive relation of user entity set';
@@ -103,7 +105,9 @@ CREATE TABLE IF NOT EXISTS "MemberOf" (
             ON UPDATE CASCADE ON DELETE CASCADE,
     access    VARCHAR(10) DEFAULT 'member'::bpchar NOT NULL,
     CONSTRAINT member_pk
-        PRIMARY KEY (group_id, member_id)
+        PRIMARY KEY (group_id, member_id),
+    CONSTRAINT memberof_pk
+        UNIQUE (group_id, member_id)
 );
 
 COMMENT ON TABLE "MemberOf" IS 'many-to-many relation between user and group';
@@ -232,7 +236,9 @@ CREATE TABLE IF NOT EXISTS "AssignedTo" (
             REFERENCES "User"
             ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT assignedto_pk
-        PRIMARY KEY (post_id, user_id)
+        PRIMARY KEY (post_id, user_id),
+    CONSTRAINT assignedto_pk_2
+        UNIQUE (post_id, user_id)
 );
 
 COMMENT ON TABLE "AssignedTo" IS 'queries will be assigned to one or more people';
@@ -250,7 +256,9 @@ CREATE TABLE IF NOT EXISTS "TagFallsUnder" (
             REFERENCES "Subject"
             ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT tagfallsunder_pk
-        PRIMARY KEY (tag_id, subject_id)
+        PRIMARY KEY (tag_id, subject_id),
+    CONSTRAINT tagfallsunder_pk_2
+        UNIQUE (tag_id, subject_id)
 );
 
 COMMENT ON TABLE "TagFallsUnder" IS 'many-to-many relation between Tag and Subject';
@@ -268,7 +276,9 @@ CREATE TABLE IF NOT EXISTS "PostRelatedTo" (
             REFERENCES "Post"
             ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT postrelatedto_pk
-        PRIMARY KEY (tag_id, post_id)
+        PRIMARY KEY (tag_id, post_id),
+    CONSTRAINT postrelatedto_pk_2
+        UNIQUE (tag_id, post_id)
 );
 
 COMMENT ON TABLE "PostRelatedTo" IS 'many-to-many relation between query and tag';
@@ -514,7 +524,9 @@ CREATE TABLE IF NOT EXISTS "PostPartOf" (
             REFERENCES "Group"
             ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT postpartof_pk
-        PRIMARY KEY (post_id, group_id)
+        PRIMARY KEY (post_id, group_id),
+    CONSTRAINT postpartof_pk_2
+        UNIQUE (post_id, group_id)
 );
 
 COMMENT ON TABLE "PostPartOf" IS 'to know which group this post is of';

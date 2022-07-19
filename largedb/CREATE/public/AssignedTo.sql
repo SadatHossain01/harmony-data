@@ -8,11 +8,12 @@ CREATE TABLE "AssignedTo" (
             REFERENCES "User"
             ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT assignedto_pk
-        PRIMARY KEY (post_id, user_id)
+        PRIMARY KEY (post_id, user_id),
+    CONSTRAINT assignedto_pk_2
+        UNIQUE (post_id, user_id)
 );
 
 COMMENT ON TABLE "AssignedTo" IS 'queries will be assigned to one or more people';
 
 ALTER TABLE "AssignedTo"
     OWNER TO postgres;
-
