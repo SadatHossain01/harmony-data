@@ -18,8 +18,7 @@ COMMENT ON COLUMN "User".mname IS 'middle name, can be null';
 
 COMMENT ON COLUMN "User".lname IS 'last name';
 
-ALTER TABLE "User"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS user_user_name_uindex
     ON "User" (user_name);
@@ -41,8 +40,7 @@ CREATE TABLE IF NOT EXISTS "Content" (
 
 COMMENT ON COLUMN "Content".type IS 'type is either file or photo';
 
-ALTER TABLE "Content"
-    OWNER TO postgres;
+
 
 ALTER TABLE "User"
     ADD CONSTRAINT user_content_content_id_fk
@@ -72,8 +70,7 @@ CREATE TABLE IF NOT EXISTS "FriendOf" (
 
 COMMENT ON TABLE "FriendOf" IS 'a recursive relation of user entity set';
 
-ALTER TABLE "FriendOf"
-    OWNER TO postgres;
+
 
 CREATE TABLE IF NOT EXISTS "Group" (
     group_id       SERIAL
@@ -88,8 +85,7 @@ CREATE TABLE IF NOT EXISTS "Group" (
             ON UPDATE CASCADE ON DELETE SET NULL
 );
 
-ALTER TABLE "Group"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS group_group_id_uindex
     ON "Group" (group_id);
@@ -114,8 +110,7 @@ COMMENT ON TABLE "MemberOf" IS 'many-to-many relation between user and group';
 
 COMMENT ON COLUMN "MemberOf".access IS 'member or admin';
 
-ALTER TABLE "MemberOf"
-    OWNER TO postgres;
+
 
 CREATE TABLE IF NOT EXISTS "Subject" (
     subject_id      SERIAL
@@ -128,8 +123,7 @@ CREATE TABLE IF NOT EXISTS "Subject" (
             ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-ALTER TABLE "Subject"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS subject_subject_id_uindex
     ON "Subject" (subject_id);
@@ -141,8 +135,7 @@ CREATE TABLE IF NOT EXISTS "Tag" (
     tag_name VARCHAR(15) DEFAULT 'Tag'::CHARACTER VARYING NOT NULL
 );
 
-ALTER TABLE "Tag"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS tag_tag_id_uindex
     ON "Tag" (tag_id);
@@ -179,8 +172,7 @@ COMMENT ON COLUMN "Post".parent_post_id IS 'if parent post id null, then this is
 
 COMMENT ON COLUMN "Post".subject_id IS 'if null, then general subject';
 
-ALTER TABLE "Post"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS post_post_id_uindex
     ON "Post" (post_id);
@@ -202,8 +194,7 @@ COMMENT ON TABLE "Notice" IS 'an inherited entity set of post';
 
 COMMENT ON COLUMN "Notice".validity IS 'valid up until when';
 
-ALTER TABLE "Notice"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS notice_post_id_uindex
     ON "Notice" (notice_id);
@@ -220,8 +211,7 @@ CREATE TABLE IF NOT EXISTS "Query" (
 
 COMMENT ON TABLE "Query" IS 'an inherited entity set of post';
 
-ALTER TABLE "Query"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS query_post_id_uindex
     ON "Query" (query_id);
@@ -243,8 +233,7 @@ CREATE TABLE IF NOT EXISTS "AssignedTo" (
 
 COMMENT ON TABLE "AssignedTo" IS 'queries will be assigned to one or more people';
 
-ALTER TABLE "AssignedTo"
-    OWNER TO postgres;
+
 
 CREATE TABLE IF NOT EXISTS "TagFallsUnder" (
     tag_id     INTEGER NOT NULL
@@ -263,8 +252,7 @@ CREATE TABLE IF NOT EXISTS "TagFallsUnder" (
 
 COMMENT ON TABLE "TagFallsUnder" IS 'many-to-many relation between Tag and Subject';
 
-ALTER TABLE "TagFallsUnder"
-    OWNER TO postgres;
+
 
 CREATE TABLE IF NOT EXISTS "PostRelatedTo" (
     tag_id  INTEGER NOT NULL
@@ -285,8 +273,7 @@ COMMENT ON TABLE "PostRelatedTo" IS 'many-to-many relation between query and tag
 
 COMMENT ON COLUMN "PostRelatedTo".post_id IS 'this is of some query';
 
-ALTER TABLE "PostRelatedTo"
-    OWNER TO postgres;
+
 
 CREATE TABLE IF NOT EXISTS "Message" (
     message_id  SERIAL
@@ -304,8 +291,7 @@ CREATE TABLE IF NOT EXISTS "Message" (
             ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-ALTER TABLE "Message"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS message_message_id_uindex
     ON "Message" (message_id);
@@ -322,8 +308,7 @@ CREATE TABLE IF NOT EXISTS "GroupMessage" (
 
 COMMENT ON TABLE "GroupMessage" IS 'an inherited entity set of message';
 
-ALTER TABLE "GroupMessage"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS groupmessage_message_id_uindex
     ON "GroupMessage" (message_id);
@@ -341,8 +326,7 @@ CREATE TABLE IF NOT EXISTS "Event" (
     time_to_happen TIMESTAMP
 );
 
-ALTER TABLE "Event"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS event_event_id_uindex
     ON "Event" (event_id);
@@ -367,8 +351,7 @@ CREATE TABLE IF NOT EXISTS "Assignment" (
 
 COMMENT ON TABLE "Assignment" IS 'an inherited entity set of event';
 
-ALTER TABLE "Assignment"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS assignment_event_id_uindex
     ON "Assignment" (assignment_id);
@@ -387,8 +370,7 @@ CREATE TABLE IF NOT EXISTS "Picture" (
 
 COMMENT ON TABLE "Picture" IS 'an inherited entity set of content';
 
-ALTER TABLE "Picture"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS picture_picture_id_uindex
     ON "Picture" (picture_id);
@@ -406,8 +388,7 @@ CREATE TABLE IF NOT EXISTS "File" (
 
 COMMENT ON TABLE "File" IS 'an inherited entity set of content';
 
-ALTER TABLE "File"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS file_file_id_uindex
     ON "File" (file_id);
@@ -433,8 +414,7 @@ COMMENT ON COLUMN "Question".content_id IS 'look at the "questionIn" relation';
 
 COMMENT ON COLUMN "Question".q_text IS 'if the question can be stored in a simple text format';
 
-ALTER TABLE "Question"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS question_question_id_uindex
     ON "Question" (question_id);
@@ -453,8 +433,7 @@ COMMENT ON TABLE "Solution" IS 'weak entity set dependent on question';
 
 COMMENT ON COLUMN "Solution".s_text IS 'if the solution can be stored as a simple text, then why bother about files?';
 
-ALTER TABLE "Solution"
-    OWNER TO postgres;
+
 
 CREATE TABLE IF NOT EXISTS "Poll" (
     poll_id     SERIAL
@@ -468,8 +447,7 @@ CREATE TABLE IF NOT EXISTS "Poll" (
     poll_opened TIMESTAMP   DEFAULT CURRENT_TIMESTAMP
 );
 
-ALTER TABLE "Poll"
-    OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX IF NOT EXISTS poll_poll_id_uindex
     ON "Poll" (poll_id);
@@ -490,8 +468,7 @@ CREATE TABLE IF NOT EXISTS "PollOption" (
 
 COMMENT ON TABLE "PollOption" IS 'weak entity set dependent on poll';
 
-ALTER TABLE "PollOption"
-    OWNER TO postgres;
+
 
 CREATE TABLE IF NOT EXISTS "HasVoted" (
     voter_id  INTEGER NOT NULL
@@ -511,6 +488,5 @@ CREATE TABLE IF NOT EXISTS "HasVoted" (
 
 COMMENT ON TABLE "HasVoted" IS 'many-to-many relation between user and poll';
 
-ALTER TABLE "HasVoted"
-    OWNER TO postgres;
+
 
