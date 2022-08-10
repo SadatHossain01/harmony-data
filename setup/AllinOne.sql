@@ -444,7 +444,8 @@ CREATE TABLE IF NOT EXISTS "Event" (
         CONSTRAINT event_subject_subject_id_fk
             REFERENCES "Subject"
             ON UPDATE CASCADE ON DELETE SET NULL,
-    time_to_happen TIMESTAMP
+    time_to_happen TIMESTAMPTZ
+--  use TIMESTAMPTZ instead of TIMESTAMP
 );
 
 
