@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS "Content" (
     content_name VARCHAR(25) DEFAULT 'Content'::CHARACTER VARYING,
     access       VARCHAR(10) DEFAULT 'all'::CHARACTER VARYING NOT NULL,
     link         TEXT                                         NOT NULL,
-    created      TIMESTAMP   DEFAULT CURRENT_TIMESTAMP,
+    created      TIMESTAMPTZ   DEFAULT CURRENT_TIMESTAMP,
     owner_id     INTEGER
         CONSTRAINT content_user__fk
             REFERENCES "User"
@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS "Post" (
         CONSTRAINT post_pk
             PRIMARY KEY,
     p_text         TEXT      DEFAULT 'Insert Post Here'::TEXT NOT NULL,
-    time           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    time           TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     upvote         INTEGER   DEFAULT 0                        NOT NULL,
     poster_id      INTEGER                                    NOT NULL
         CONSTRAINT post_user_user_id_fk
@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS "Notice" (
         CONSTRAINT notice_post_post_id_fk
             REFERENCES "Post"
             ON UPDATE CASCADE ON DELETE CASCADE,
-    validity  TIMESTAMP
+    validity  TIMESTAMPTZ
 );
 
 COMMENT ON TABLE "Notice" IS 'an inherited entity set of post';
@@ -280,7 +280,7 @@ CREATE TABLE IF NOT EXISTS "Message" (
         CONSTRAINT message_pk
             PRIMARY KEY,
     m_text      TEXT                                NOT NULL,
-    time        TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    time        TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
     sender_id   INTEGER                             NOT NULL
         CONSTRAINT message_user_user_id_fk
             REFERENCES "User"
@@ -317,14 +317,14 @@ CREATE TABLE IF NOT EXISTS "Event" (
     event_id       SERIAL
         CONSTRAINT event_pk
             PRIMARY KEY,
-    time_created   TIMESTAMP   DEFAULT CURRENT_TIMESTAMP,
+    time_created   TIMESTAMPTZ   DEFAULT CURRENT_TIMESTAMP,
     title          VARCHAR(30) DEFAULT 'Event'::CHARACTER VARYING,
     subject_id     INTEGER
         CONSTRAINT event_subject_subject_id_fk
             REFERENCES "Subject"
             ON UPDATE CASCADE ON DELETE SET NULL,
     time_to_happen TIMESTAMPTZ
---  use TIMESTAMPTZ instead of TIMESTAMP
+--  use TIMESTAMPTZ instead of TIMESTAMPTZ
 );
 
 
@@ -384,7 +384,7 @@ CREATE TABLE IF NOT EXISTS "File" (
             REFERENCES "Content"
             ON UPDATE CASCADE ON DELETE CASCADE,
     file_format   VARCHAR(10) NOT NULL,
-    last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    last_modified TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 COMMENT ON TABLE "File" IS 'an inherited entity set of content';
@@ -445,7 +445,7 @@ CREATE TABLE IF NOT EXISTS "Poll" (
         CONSTRAINT poll_group_group_id_fk
             REFERENCES "Group"
             ON UPDATE CASCADE ON DELETE CASCADE,
-    poll_opened TIMESTAMP   DEFAULT CURRENT_TIMESTAMP
+    poll_opened TIMESTAMPTZ   DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -480,7 +480,7 @@ CREATE TABLE IF NOT EXISTS "HasVoted" (
         CONSTRAINT hasvoted_poll_poll_id_fk
             REFERENCES "Poll"
             ON UPDATE CASCADE ON DELETE CASCADE,
-    vote_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    vote_time TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT hasvoted_pk
         PRIMARY KEY (voter_id, poll_id),
     CONSTRAINT hasvoted_pk_2
@@ -492,3 +492,4 @@ COMMENT ON TABLE "HasVoted" IS 'many-to-many relation between user and poll';
 CREATE TABLE IF NOT EXISTS "Session"(
   session_id UUID NOT NULL PRIMARY KEY, 
   user_id INTEGER REFERENCES "User"(user_id));
+
