@@ -489,4 +489,6 @@ CREATE TABLE IF NOT EXISTS "HasVoted" (
 
 COMMENT ON TABLE "HasVoted" IS 'many-to-many relation between user and poll';
 
-
+CREATE TABLE IF NOT EXISTS "Session"(
+  session_id UUID NOT NULL PRIMARY KEY, 
+  user_id INTEGER REFERENCES "User"(user_id));
