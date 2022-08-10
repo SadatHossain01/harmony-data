@@ -1,12 +1,8 @@
--- PREPARE add_user_to_group (VARCHAR, VARCHAR) AS
+-- $1 user_id
+-- $2 group_id
+
+-- PREPARE add_user_to_group (INT4, INT4) AS
 INSERT INTO "MemberOf" (member_id, group_id)
-VALUES ((SELECT user_id
-            FROM "User"
-            WHERE "User".user_name = $1::VARCHAR
-            LIMIT 1),
-        (SELECT group_id
-            FROM "Group"
-            WHERE "Group".group_name = $2::VARCHAR
-            LIMIT 1));
+VALUES ($1::INT4, $2::INT4);
 
 -- EXECUTE add_user_to_group('Sadat999', 'CSE19');
