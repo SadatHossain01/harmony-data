@@ -1,3 +1,5 @@
 
 *.xml
 *.iml
+python scripts/cse19.py
+bulk generation scripts/cse19.sql
