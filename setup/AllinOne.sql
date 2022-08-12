@@ -177,8 +177,6 @@ COMMENT ON COLUMN "Post".subject_id IS 'if null, then general subject';
 CREATE UNIQUE INDEX IF NOT EXISTS post_post_id_uindex
     ON "Post" (post_id);
 
-CREATE UNIQUE INDEX IF NOT EXISTS post_text_uindex
-    ON "Post" (p_text);
 
 CREATE TABLE IF NOT EXISTS "Notice" (
     notice_id INTEGER NOT NULL

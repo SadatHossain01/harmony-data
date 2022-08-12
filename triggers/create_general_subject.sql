@@ -1,3 +1,3 @@
-CREATE or replace TRIGGER tr_create_general_subject
+CREATE or REPLACE TRIGGER tr_create_general_subject
     AFTER INSERT ON "Group"
-    FOR EACH row EXECUTE FUNCTION create_general_subject();
+    FOR EACH ROW EXECUTE FUNCTION create_general_subject();
