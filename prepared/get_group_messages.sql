@@ -14,5 +14,5 @@ SELECT prepare_json(json_agg(messages)::TEXT)
               AND m.group_id = $2::INT4)
         AND group_id = $2::INT4 
         AND subject_id = $3::INT4
-      ORDER BY time DESC
+      ORDER BY time ASC
   ) messages;

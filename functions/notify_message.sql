@@ -10,7 +10,8 @@ BEGIN
 
   IF NEW.group_id IS NOT NULL THEN
     payload := json_build_object(
-      'sender_id', NEW.sender_id, 
+      'id', NEW.message_id::text,
+      'sender_id', NEW.sender_id::text, 
       'sender_name', sender,
       'content', NEW.m_text,
       'time', NEW.time::VARCHAR);
