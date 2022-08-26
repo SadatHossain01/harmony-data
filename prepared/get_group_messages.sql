@@ -4,10 +4,12 @@
 -- PREPARE get_group_messages(INT4, INT4, INT4) AS
 SELECT prepare_json(json_agg(messages)::TEXT)
   FROM(
-    SELECT message_id::text, m_text AS content, time, sender_id::text, u1.user_name AS sender_name
+    SELECT message_id::text, m_text AS content, time, sender_id::text, u1.user_name AS sender_name, c.link AS sender_dp
       FROM "Message" m1
       JOIN "User" u1
       ON    u1.user_id = m1.sender_id 
+      LEFT JOIN "Content" c
+      ON    u1.dp_id = c.content_id
       WHERE EXISTS(
             SELECT * FROM "MemberOf" m 
             WHERE m.member_id = $1::INT4
