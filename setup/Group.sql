@@ -11,9 +11,6 @@ CREATE TABLE "Group" (
             ON UPDATE CASCADE ON DELETE SET NULL
 );
 
-ALTER TABLE "Group"
-    OWNER TO postgres;
-
 CREATE UNIQUE INDEX group_group_id_uindex
     ON "Group" (group_id);
 
