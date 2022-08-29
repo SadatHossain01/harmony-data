@@ -47,6 +47,6 @@ BEGIN
   WHERE p.poll_id = pid
   GROUP BY p.poll_id, p.poll_title;
   
-  return prepare_json(ret::text);
+  return ret;
 END;
 $$ LANGUAGE plpgsql;

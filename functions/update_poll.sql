@@ -6,6 +6,7 @@ CREATE OR REPLACE FUNCTION update_poll(
 DECLARE
   ret JSON;
   gid INT4;
+  payload JSON;
 BEGIN
   SELECT group_id INTO gid 
   FROM "Poll"
@@ -39,6 +40,13 @@ BEGIN
     AND p.poll_id = pid;
 
     ret := json_build_object('success', TRUE);
+
+    payload := json_build_object(
+      'op', 'update',
+      'id', pid::text,
+      'poll', get_poll_json(NULL, pid)
+    );
+    PERFORM pg_notify('poll/group/'|| gid, prepare_json(payload::text));
   END IF;
   return prepare_json(ret::text);
 END;
