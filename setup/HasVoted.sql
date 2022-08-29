@@ -7,7 +7,11 @@ CREATE TABLE "HasVoted" (
         CONSTRAINT hasvoted_poll_poll_id_fk
             REFERENCES "Poll"
             ON UPDATE CASCADE ON DELETE CASCADE,
-    vote_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    option_id   INTEGER NOT NULL
+        CONSTRAINT hasvoted_option_option_id_fk
+            REFERENCES "PollOption"
+            ON UPDATE CASCADE ON DELETE CASCADE,
+    vote_time TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT hasvoted_pk
         PRIMARY KEY (voter_id, poll_id),
     CONSTRAINT hasvoted_pk_2
@@ -15,7 +19,4 @@ CREATE TABLE "HasVoted" (
 );
 
 COMMENT ON TABLE "HasVoted" IS 'many-to-many relation between user and poll';
-
-ALTER TABLE "HasVoted"
-    OWNER TO postgres;
 

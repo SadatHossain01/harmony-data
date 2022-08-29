@@ -3,17 +3,15 @@ CREATE TABLE "PollOption" (
         CONSTRAINT polloption_poll_poll_id_fk
             REFERENCES "Poll"
             ON UPDATE CASCADE ON DELETE CASCADE,
-    option_no    INTEGER               NOT NULL,
+    option_id    SERIAL               NOT NULL,
     option_title VARCHAR(35) DEFAULT 'Option'::CHARACTER VARYING,
+    option_description TEXT DEFAULT ''::TEXT,
     vote_count   INTEGER     DEFAULT 0 NOT NULL,
     CONSTRAINT polloption_pk
-        PRIMARY KEY (poll_id, option_no),
+        PRIMARY KEY (option_id),
     CONSTRAINT polloption_pk_2
-        UNIQUE (poll_id, option_no)
+        UNIQUE (option_id)
 );
 
 COMMENT ON TABLE "PollOption" IS 'weak entity set dependent on poll';
-
-ALTER TABLE "PollOption"
-    OWNER TO postgres;
 
