@@ -19,7 +19,7 @@ BEGIN
       'sender_dp', sender_dp,
       'content', NEW.m_text,
       'time', NEW.time::VARCHAR);
-    PERFORM pg_notify('chat/group/'|| NEW.group_id, payload::text);
+    PERFORM pg_notify('chat/group/'|| NEW.group_id, prepare_json(payload::text));
   END IF;
 
   RETURN NULL;

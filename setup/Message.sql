@@ -19,9 +19,7 @@ CREATE TABLE "Message" (
     subject_id INTEGER                                
         CONSTRAINT message_subject_subject_id_fk_4
             REFERENCES "Subject"(subject_id)
-            ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT message_group_and_subject_is_valid 
-      CHECK(check_message_group_subject(sender_id, group_id, subject_id) == TRUE)
+            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 

@@ -8,6 +8,7 @@ BEGIN
     WHERE user_id = member_id 
   LOOP
     channel := 'chat/' || 'group/' || gid; 
+    channel := 'post/' || 'group/' || gid; 
     EXECUTE format('LISTEN %I', channel);
     RETURN NEXT channel;
   END LOOP;
