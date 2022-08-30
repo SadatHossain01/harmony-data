@@ -1,6 +1,7 @@
 CREATE OR REPLACE FUNCTION update_poll(
     uid INT,
     pid INT,
+    title TEXT,
     options JSON
   ) RETURNS TEXT AS $$
 DECLARE
@@ -14,6 +15,11 @@ BEGIN
   IF NOT check_user_in_group(uid, gid) THEN
     ret := json_build_object('success', FALSE, 'reason', 'User not in group');
   ELSE 
+
+    UPDATE "Poll"
+    SET poll_title = title
+    WHERE poll_id = pid;
+
     DELETE FROM "PollOption" p
     WHERE option_id IN 
     (

@@ -2,6 +2,7 @@ CREATE TABLE "Event" (
     event_id       SERIAL
         CONSTRAINT event_pk
             PRIMARY KEY,
+    event_description TEXT       DEFAULT ''::TEXT NOT NULL;
     time_created   TIMESTAMPTZ   DEFAULT CURRENT_TIMESTAMP,
     title          VARCHAR(30) DEFAULT 'Event'::CHARACTER VARYING,
     subject_id     INTEGER

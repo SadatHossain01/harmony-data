@@ -4,14 +4,8 @@ DECLARE
   dp_link TEXT;
   payload JSON;
 BEGIN
-  IF (TG_OP = 'INSERT') THEN
-    payload := json_build_object(
-      'op', 'add',
-      'id', NEW.poll_id::text,
-      'poll', get_poll_json(NULL, NEW.poll_id)
-    );
-    PERFORM pg_notify('poll/group/'|| NEW.group_id, prepare_json(payload::text));
-  ELSIF (TG_OP = 'DELETE') THEN
+
+  IF (TG_OP = 'DELETE') THEN
     payload := json_build_object(
       'op', 'delete',
       'id', OLD.poll_id::text

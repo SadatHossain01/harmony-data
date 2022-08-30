@@ -13,6 +13,9 @@ BEGIN
     channel := 'post/' || 'group/' || gid; 
     EXECUTE format('LISTEN %I', channel);
     RETURN NEXT channel;
+    channel := 'poll/' || 'group/' || gid; 
+    EXECUTE format('LISTEN %I', channel);
+    RETURN NEXT channel;
   END LOOP;
 END;
 $$ LANGUAGE plpgsql;
