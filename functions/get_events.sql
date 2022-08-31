@@ -17,9 +17,11 @@ BEGIN
           'description', event_description::text,
           'time', time_to_happen::text
           )
+          ORDER BY e.time_to_happen ASC
         ) INTO ret
        FROM "Event" e
-       WHERE e.group_id = gid;
+       WHERE e.group_id = gid
+       AND e.time_to_happen >= CURRENT_TIMESTAMP;
     END IF;
     IF ret IS NULL THEN
       return '[]'::json;

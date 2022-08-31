@@ -17,4 +17,5 @@ SELECT prepare_json(json_agg(gg)::text)
         JOIN "MemberOf" m
         ON m.group_id = g.group_id
         WHERE m.member_id = $1::INT
+        ORDER BY created ASC
   ) gg;
