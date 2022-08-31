@@ -8,7 +8,8 @@ BEGIN
   IF (TG_OP = 'DELETE') THEN
     payload := json_build_object(
       'op', 'delete',
-      'id', OLD.poll_id::text
+      'id', OLD.poll_id::text,
+      'group_id', OLD.group_id::text
     );
     PERFORM pg_notify('poll/group/'|| OLD.group_id, prepare_json(payload::text));
   END IF;

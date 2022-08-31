@@ -66,6 +66,7 @@ BEGIN
     payload := json_build_object(
       'op', 'update',
       'id', pid::text,
+      'group_id', gid::text,
       'poll', get_poll_json(NULL, pid)
     );
     PERFORM pg_notify('poll/group/'|| gid, prepare_json(payload::text));
