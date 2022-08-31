@@ -7,7 +7,7 @@ $$
 DECLARE
     ret    JSON;
 BEGIN
-    IF NOT check_user_is_admin(uid, gid) THEN
+    IF uid <> mid AND NOT check_user_is_admin(uid, gid) THEN
         ret := JSON_BUILD_OBJECT('success', FALSE, 'reason', 'Adder/Remover is not a group_admin');
     ELSE
       IF add THEN
